@@ -19,7 +19,7 @@ export async function getSignedURL(fileName: string) {
   const coverKey = `uploads/${key}/cover.png`;
 
   const audioCommand = new PutObjectCommand({
-    Bucket: process.env.S3_BUCKET_NAME!,
+    Bucket: process.env.AWS_S3_BUCKET_NAME!,
     Key: audioKey,
     ContentType: "audio/mpeg",
   });

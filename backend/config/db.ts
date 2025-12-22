@@ -12,4 +12,5 @@ const client = new MongoClient(process.env.MONGODB_URI);
 // Connect once and reuse
 const clientPromise = client.connect();
 
-export default clientPromise;
+
+export default client;
