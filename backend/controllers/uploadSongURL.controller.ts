@@ -41,6 +41,7 @@ async function insertData() {
       const title = req.body.titleList[i];
       const artist = req.body.artistList[i];
       const duration = req.body.durationList[i];
+      const date = req.body.dateList[i];
 
       const songData = {
         UserID: req.body.userID,
@@ -49,6 +50,7 @@ async function insertData() {
         Title: title,
         Artist: artist,
         Duration: duration,
+        Date: date,
       };
       console.log(songData);
 

@@ -10,8 +10,14 @@ export function useUploadSongs() {
 
   const pickFiles = async () => {
     const newFiles = await handlePickFiles();
-    setUploadedFiles(prev => [...prev, ...newFiles]);
+    setUploadedFiles([...newFiles]);
   };
+
+
+const now = new Date();
+
+
+const dateList = new Array(uploadedFiles.length).fill(now);
 
   useEffect(() => {
     (async () => {
@@ -36,12 +42,13 @@ export function useUploadSongs() {
         titleList,
         artistList,
         durationList,
+        dateList,
       });
 
       setSongUrls([...res.data.SignedSongURLList]);
       setCoverUrls([...res.data.SignedCoverURLList]);
     })();
-  }, [uploadedFiles]);
+  }, [uploadedFiles, dateList]);
 
   return { uploadedFiles, songUrls, coverUrls, pickFiles, setUploadedFiles };
 }
