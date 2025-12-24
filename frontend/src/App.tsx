@@ -1,7 +1,8 @@
 import  Layout  from "@/layout"
-import  TopBar  from "@/components/TopBar"
 import { Buffer } from "buffer";
 import DisplayAllSongs from "./components/songDisplay/DisplayAllSongs";
+
+import PlayerBar  from "./components/playerBar/PlayerBar";
 
 declare global {
   interface Window {
@@ -13,9 +14,12 @@ window.Buffer = Buffer;
 
 function App() {
     return (
+        <>
+      <PlayerBar />
         <Layout>
         <DisplayAllSongs />
     </Layout>
+    </>
     )
 }
 

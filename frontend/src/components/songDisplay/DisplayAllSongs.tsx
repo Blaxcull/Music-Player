@@ -1,27 +1,37 @@
 import { Button } from "@/components/ui/button"
-import {
-  Item,
-  ItemActions,
-  ItemContent,
-  ItemDescription,
-  ItemTitle,
-} from "@/components/ui/item"
 
 import { useEffect } from "react";
 import { useSongStore } from "@/store/fetchSongsStore";
+import PlaySongButton from "./PlaySongButton";
+
+import { usePlayerStore } from "@/store/playerStore";
+
 
 
 
 
 const DisplayAllSongs = () => {
     const { songs, fetchSongs, loading, error } = useSongStore();
+    const setQueue = usePlayerStore((state) => state.setQueue);
+
+    const { isPlaying, currentIndex } = usePlayerStore();
 
   useEffect(() => {
-    fetchSongs();
-  }, [fetchSongs]);
+    fetchSongs().then((data) => {
+      if (data) setQueue(data); // only once
+    });
+  }, [fetchSongs, setQueue]);
+
+
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
+
+
+
+
+
+
 
 
 function formatSongDate(date: string | Date): string {
@@ -55,7 +65,7 @@ const formatSongDuration = (duration: number): string => {
 PLAY
     </div>
 
-<ul className="w-full">
+<ul className="w-full select-none">
   {/* Header */}
 <li className="text-gray-500 pl-3 text-sm mb-2 flex items-center">
   <span className="w-8 flex-shrink-0 ">#</span>
@@ -72,16 +82,23 @@ PLAY
   {songs.map((song, index) => (
 <li
   key={song._id}
-className="
-  flex h-15 pl-3 items-center
-  text-gray-900 text-sm py-2
-  hover:bg-gray-300
-  transition-colors duration-50
-  rounded-lg
-"
+  className="
+    group flex h-15 pl-3 items-center
+    text-gray-900 text-sm py-2
+    hover:bg-gray-300
+    transition-colors duration-50
+    rounded-lg
+  "
 >
-      <span className="w-8 flex-shrink-0">{index + 1}</span>
-      <span className="flex-[3] min-w-[150px]">{song.Title}</span>
+
+    <PlaySongButton index={index} key={song._id}  />
+
+      <span className={`flex-[3] min-w-[150px]
+
+${
+    currentIndex === index ? "text-green-500" : "text-gray-900"
+}`
+      }>{song.Title}</span>
       <span className="flex-[2] min-w-[120px]">{song.Artist}</span>
       <span className="flex-[2] min-w-[120px]">{formatSongDate(song.Date)}</span>
       <span className="w-20 mr-6 flex-shrink-0 pl-3">{formatSongDuration(song.Duration)}</span>

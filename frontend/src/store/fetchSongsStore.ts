@@ -16,7 +16,7 @@ type SongStore = {
   songs: Song[];
   loading: boolean;
   error: string | null;
-  fetchSongs: () => Promise<void>;
+  fetchSongs: () => Promise<Song[] | undefined>;
 };
 
 export const useSongStore = create<SongStore>((set, get) => ({
@@ -24,8 +24,7 @@ export const useSongStore = create<SongStore>((set, get) => ({
   loading: false,
   error: null,
 
-  fetchSongs: async () => {
-    // 🚫 prevent refetch if already loaded
+  fetchSongs: async (): Promise<Song[] | undefined> =>{  // 🚫 prevent refetch if already loaded
     if (get().songs.length > 0) return;
 
     set({ loading: true, error: null });
@@ -34,6 +33,7 @@ export const useSongStore = create<SongStore>((set, get) => ({
       const response = await api.get("/api/songs/fetchAllSongs");
       console.log(response.data);
       set({ songs: response.data, loading: false });
+      return response.data;
     } catch (err: Err) {
       set({ error: "Failed to fetch songs",loading: false });
       console.error(err);
