@@ -1,5 +1,6 @@
 import { Heart,  Home, } from "lucide-react"
 import MusicIcon from "@/assets/music-svgrepo-com.svg?react";
+import { Link } from "react-router-dom";
 
 import {
   Sidebar,
@@ -17,12 +18,12 @@ import {
 const items = [
   {
     title: "Songs",
-    url: "#",
+    url: "/",
     icon: Home,
   },
   {
     title: "Liked",
-    url: "#",
+    url: "/LikedSongs",
     icon: Heart,
   },
 ]
@@ -45,11 +46,15 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url} className="pl-5 h-10 pt-0 pb-0">
-                      <item.icon  className="w-10 h-10 mr-1 " />
-                      <span className=" ">{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
+
+<Link
+  to={item.url} // use 'to' instead of 'href'
+  className="pl-5 h-10 pt-0 pb-0 flex items-center"
+>
+  <item.icon className="w-10 h-10 mr-1" />
+  <span>{item.title}</span>
+</Link>
+</SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useSongStore } from "@/store/fetchSongsStore";
 import PlaySongButton from "./PlaySongButton";
@@ -14,7 +13,7 @@ import LikeButton from "./LikeButton";
 
 
 
-const DisplayAllSongs = () => {
+const DisplayLikedSongs = () => {
     const { songs, fetchSongs, loading, error } = useSongStore();
     const setQueue = usePlayerStore((state) => state.setQueue);
 
@@ -152,4 +151,4 @@ const formatSongDuration = (duration: number): string => {
 }
 
 
-export default DisplayAllSongs
+export default DisplayLikedSongs

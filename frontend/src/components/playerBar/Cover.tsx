@@ -24,13 +24,14 @@ export function Cover() {
         <Item variant="default" asChild role="listitem">
           <a href="#" className="flex items-center gap-3 w-70 min-w-0 overflow-hidden">
             <ItemMedia variant="image">
-            {!isPlaying ? null:
-              <img
-                src={currentCover ?? "/placeholder.png"}
-                alt={currentSong?.Title ?? "Cover"}
-                className="h-10 w-10 sm:h-12 sm:w-12 object-cover rounded"
-              />
-            }
+
+{currentCover && (
+  <img
+    src={currentCover}
+    alt={currentSong?.Title ?? ""}
+    className="h-10 w-10 sm:h-12 sm:w-12 object-cover rounded"
+  />
+)}
             </ItemMedia>
 
             <ItemContent className="min-w-0">

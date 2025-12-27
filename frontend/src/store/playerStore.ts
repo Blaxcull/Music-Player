@@ -7,6 +7,7 @@ type Song = {
   Duration: number;
   SignedSongURL: string;
   SignedCoverURL: string;
+  Liked: boolean
 };
 
 type LoopMode = "none" | "one" | "all";
@@ -42,6 +43,7 @@ playOrder: number[];
 
   currentCover:string | null;
   setCurrentCover: () => void;
+
 
 
 };
