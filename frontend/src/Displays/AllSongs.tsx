@@ -1,8 +1,8 @@
 import  Layout  from "@/layout"
 import { Buffer } from "buffer";
-import DisplayAllSongs from "./components/songDisplay/DisplayAllSongs";
+import DisplayAllSongs from "@/components/songDisplay/DisplayAllSongs";
 
-import PlayerBar  from "./components/playerBar/PlayerBar";
+import PlayerBar  from "@/components/playerBar/PlayerBar";
 
 declare global {
   interface Window {
@@ -12,7 +12,7 @@ declare global {
 
 window.Buffer = Buffer;
 
-function App() {
+function AllSongs() {
     return (
         <>
       <PlayerBar />
@@ -23,4 +23,4 @@ function App() {
     )
 }
 
-export default App
+export default AllSongs

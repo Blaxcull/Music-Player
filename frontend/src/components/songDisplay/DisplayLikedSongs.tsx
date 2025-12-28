@@ -1,6 +1,6 @@
 
 import { useEffect } from "react";
-import { useSongStore } from "@/store/fetchSongsStore";
+import { useLikedSongStore } from "@/store/fetchLikedSongsStore.ts";
 import PlaySongButton from "./PlaySongButton";
 import { usePlayerStore } from "@/store/playerStore";
 import { Play, Pause } from "lucide-react";
@@ -14,8 +14,8 @@ import LikeButton from "./LikeButton";
 
 
 
-const DisplayAllSongs = () => {
-    const { songs, fetchSongs, loading, error } = useSongStore();
+const DisplayLikedSongs = () => {
+    const { songs, fetchLikedSongs, loading, error } = useLikedSongStore();
     const setQueue = usePlayerStore((state) => state.setQueue);
 
     const { currentIndex } = usePlayerStore();
@@ -23,13 +23,13 @@ const DisplayAllSongs = () => {
     const { setQueueName } = usePlayerStore();
     const { queueName } = usePlayerStore();
 
-      const isActiveQueue = queueName === "allSongs";
+          const isActiveQueue = queueName === "likedSongs";
 
 
 
 useEffect(() => {
-  fetchSongs();
-}, [fetchSongs]);
+  fetchLikedSongs();
+}, [fetchLikedSongs]);
 
 
 
@@ -72,10 +72,9 @@ const formatSongDuration = (duration: number): string => {
           className="flex items-center gap-2 px-4 py-4 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-gray-700 text-sm font-medium"
           onClick={() => {
 
-              const wasAllSongs = queueName === "allSongs";
+              const wasAllSongs = queueName === "likedSongs";
 
-
-              setQueueName("allSongs");
+              setQueueName("likedSongs");
 
               if (!wasAllSongs) {
                   setQueue(songs);
@@ -117,7 +116,7 @@ const formatSongDuration = (duration: number): string => {
       <div className="px-6 py-4">
         <ul className="w-full select-none">
           {/* Header */}
-          <li className=" pl-2 text-gray-500 text-sm mb-2 flex items-center">
+          <li className="pl-2 text-gray-500 text-sm mb-2 flex items-center">
             <span className="w-8 flex-shrink-0">#</span>
             <span className="flex-[4] min-w-[150px]">Title</span>
             <span className="flex-[2] min-w-[120px]">Artist</span>
@@ -138,29 +137,29 @@ const formatSongDuration = (duration: number): string => {
                 hover:bg-gray-50
                 transition-colors duration-200
                 rounded-lg
-                h-15
                 
+                h-15
               "
             >
-              <div className="w-10 flex-shrink-0">
+              <div className="w-8 flex-shrink-0">
 
-                <PlaySongButton index={index} songs={songs} LocalQueueName={"allSongs"} isActiveQueue={isActiveQueue} />
+                <PlaySongButton index={index} songs={songs} LocalQueueName={"LikedSongs"} isActiveQueue={isActiveQueue} />
 
-                </div>
-                <span
-                className={`flex-[4] min-w-[150px] ${
-                    isActiveQueue && currentIndex === index
-                        ? "text-green-500"
-                        : "text-gray-900"
-                }`}
-                >
+              </div>
+<span
+  className={`flex-[4] min-w-[150px] ${
+    isActiveQueue && currentIndex === index
+      ? "text-green-500"
+      : "text-gray-900"
+  }`}
+>
                 {song.Title}
               </span>
               <span className="flex-[2] min-w-[120px] text-gray-600">{song.Artist}</span>
               <span className="flex-[200px] min-w-[120px] text-gray-500">{formatSongDate(song.Date)}</span>
               <span className="w-20 flex-shrink-0 text-right text-gray-500 pr-9">
                 <LikeButton songId = {song._id} isLiked={song.Liked} song={song} />
-                </span>
+                </span> 
               <span className="w-20 flex-shrink-0 text-right text-gray-500 pr-9">
                 {formatSongDuration(song.Duration)}
               </span>
@@ -173,4 +172,5 @@ const formatSongDuration = (duration: number): string => {
 }
 
 
-export default DisplayAllSongs
+export default DisplayLikedSongs;
+

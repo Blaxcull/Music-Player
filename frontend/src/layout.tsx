@@ -2,6 +2,8 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import TopBar  from "@/components/TopBar";
+// Tailwind CSS
+import "./index.css";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

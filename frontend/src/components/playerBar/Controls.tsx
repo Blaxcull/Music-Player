@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { usePlayerStore } from "@/store/playerStore";
 import Loop from "./Loop";
+import Shuffle from "./shuffle";
+import {Play} from "lucide-react";
+import {Pause} from "lucide-react";
 
 export const Controls = () => {
   const toggle = usePlayerStore((state) => state.toggle);
@@ -15,10 +18,11 @@ export const Controls = () => {
       <>
 
       
-<div className="flex items-center pb-5 gap-3">
+<div className="flex items-center  gap-3">
 
 
-<Button>shuffle</Button>
+
+<Shuffle />
 
 <Button
   className="
@@ -42,10 +46,10 @@ export const Controls = () => {
 ⏮</Button>
       <Button
         onClick={onclick}
-        className="w-10 h-10 rounded-full bg-white text-black text-xl flex items-center justify-center"
-        variant="outline"
+        className="w-10 h-10 rounded-full bg-white text-xl flex items-center justify-center"
+        variant="secondary"
       >
-        {isPlaying ? "⏸" : "▶"}
+        {isPlaying ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8" />}
       </Button>
 
       <Button

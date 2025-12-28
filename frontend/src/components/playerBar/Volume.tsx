@@ -10,7 +10,7 @@ const Volume = () => {
   } = useVolumeBar();
 
   return (
-    <div className="w-full flex justify-end">
+    <div className="w-full pr-3 flex justify-end">
       <div
         ref={barRef}
         onClick={onClick}

@@ -11,7 +11,7 @@ const ProgressBar = () => {
       {/* Play / Pause */}
 
       {/* Progress */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[40%] flex items-center px-4">
+<div className="mx-auto flex w-full max-w-2xl items-center px-4 gap-3">
         <span className="text-sm tabular-nums text-gray-300">
           {currentTime
             ? formatSongDuration(currentTime)
