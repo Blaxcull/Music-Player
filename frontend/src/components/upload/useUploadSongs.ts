@@ -49,6 +49,8 @@ const dateList = new Array(uploadedFiles.length).fill(now);
       setCoverUrls([...res.data.SignedCoverURLList]);
     })();
   }, [uploadedFiles, dateList]);
+  console.log(songUrls);
+  console.log(coverUrls);
 
   return { uploadedFiles, songUrls, coverUrls, pickFiles, setUploadedFiles };
 }

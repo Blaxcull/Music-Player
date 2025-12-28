@@ -15,50 +15,51 @@ type Song = {
   Liked: boolean;
 };
 
-
 interface LikeButtonProps {
   isLiked: boolean;
   songId: string;
-  song: Song
+  song: Song;
 }
-
 
 const LikeButton = ({ isLiked, songId, song }: LikeButtonProps) => {
   const [localLike, setLocalLike] = useState<boolean | null>(null);
 
-  const addLiked = useLikedSongStore(s => s.addSong);
-const removeLiked = useLikedSongStore(s => s.removeSong);
-
+  const addLiked = useLikedSongStore((s) => s.addSong);
+  const removeLiked = useLikedSongStore((s) => s.removeSong);
 
   const showIsLiked = localLike ?? isLiked;
 
-const onClick = async () => {
-  const next = !(localLike ?? isLiked);
-  setLocalLike(next);
+  const onClick = async () => {
+    const next = !showIsLiked;
 
-  if (next) {
-    addLiked({ ...song, Liked: true });
-  } else {
-    removeLiked(songId);
-  }
+    // ✅ instant UI update
+    setLocalLike(next);
 
-  try {
-    await api.post("/api/songs/isLikedClicked", {
-      songID: songId,
-      liked: next,
-    });
-  } catch {
-    // optional rollback
-    setLocalLike(!next);
-  }
-};
+    // ✅ instant store sync
+    if (next) {
+      addLiked({ ...song, Liked: true });
+    } else {
+      removeLiked(songId);
+    }
+
+    try {
+      await api.post("/api/songs/isLikedClicked", {
+        songID: songId,
+        liked: next,
+      });
+    } catch {
+      // ⛑ rollback if backend fails
+      setLocalLike(!next);
+    }
+  };
 
   return (
     <span className="w-8 flex-shrink-0 relative hidden group-hover:inline">
       <Button
-    
         onClick={onClick}
-        className={`  ${showIsLiked ? "text-green-500" : "text-gray-400"}`}
+        className={`bg-transparent ${
+          showIsLiked ? "text-green-500" : "text-gray-400"
+        }`}
       >
         {showIsLiked ? "o" : "n"}
       </Button>

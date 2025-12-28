@@ -30,10 +30,12 @@ export const useSongStore = create<SongStore>((set) => ({
     set({ loading: true, error: null });
 
     try {
+        console.log("fetching songs")
       const response = await api.get("/api/songs/fetchAllSongs");
       console.log("fetching songs")
       console.log(response.data);
       set({ songs: response.data, loading: false });
+      console.log(response.data);
       return response.data;
 
     } catch (err: Err) {
