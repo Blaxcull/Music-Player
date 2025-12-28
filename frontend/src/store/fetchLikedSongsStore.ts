@@ -23,7 +23,7 @@ type SongStore = {
   removeSong: (songId: string) => void;
 };
 
-export const useSongStore = create<SongStore>((set, get) => ({
+export const useLikedSongStore = create<SongStore>((set, get) => ({
   songs: [],
   loading: false,
   error: null,
@@ -53,6 +53,5 @@ export const useSongStore = create<SongStore>((set, get) => ({
     set((state) => ({
       songs: state.songs.filter((s) => s._id !== songId),
     })),
-
 }));
 

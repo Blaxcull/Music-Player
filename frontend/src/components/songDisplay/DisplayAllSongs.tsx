@@ -3,7 +3,6 @@ import { useSongStore } from "@/store/fetchSongsStore";
 import { usePlayerStore } from "@/store/playerStore";
 import { Play, Pause } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 import PlaySongButton from "./PlaySongButton";
 import LikeButton from "./LikeButton";
 
@@ -48,32 +47,32 @@ const DisplayAllSongs = () => {
   };
 
   const handlePlayAll = () => {
-    const wasAllSongs = queueName === "allSongs";
+    const wasActive = isActiveQueue;
 
     setQueueName("allSongs");
-    if (!wasAllSongs) setQueue(songs);
+    if (!wasActive) setQueue(songs);
 
-    if (currentIndex === -1) {
+    if (!wasActive || currentIndex === -1) {
+      // If the queue was not active or nothing is playing, start from first song
       playAt(0);
     } else {
+      // Queue is active and a song is playing/paused, toggle playback
       toggle();
     }
   };
 
   return (
     <div className="flex flex-col bg-white rounded-lg shadow-sm">
-      {/* Header */}
       <div className="p-6 border-b border-gray-100">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-6">
-          All Songs
-        </h1>
+        <h1 className="text-2xl font-semibold text-gray-900 mb-10">All Songs</h1>
+
 
         <div className="flex items-center gap-2">
           <button
             className="flex items-center gap-2 px-4 py-4 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
             onClick={handlePlayAll}
           >
-            {isPlaying ? (
+            {isActiveQueue && isPlaying ? (
               <Pause className="text-gray-500" fill="currentColor" />
             ) : (
               <Play className="text-gray-500" fill="currentColor" />
@@ -81,7 +80,7 @@ const DisplayAllSongs = () => {
           </button>
 
           <Button
-            className="bg-transparent text-gray-400"
+            className="bg-transparent text-2xl text-gray-400 tabular-nums ml-2"
             disabled={!queue.length}
             onClick={setShuffle}
           >
@@ -90,24 +89,23 @@ const DisplayAllSongs = () => {
         </div>
       </div>
 
-      {/* List */}
       <div className="px-6 py-4">
         <ul className="w-full select-none">
-          {/* Table header */}
           <li className="text-gray-500 text-sm mb-2 flex items-center">
-            <span className="w-8">#</span>
-            <span className="flex-[3]">Title</span>
-            <span className="flex-[2]">Artist</span>
-            <span className="flex-[2]">Date Added</span>
-            <span className="w-20 text-right">Duration</span>
+            <span className="w-8 pl-2">#</span>
+            <span className="flex-[8]">Title</span>
+            <span className="flex-[5] ">Artist</span>
+            <span className="flex-[2] ">Date Added</span>
+            <span className="flex-[1] "></span>
+
+            <span className="w-20 flex-[2] text-right">Duration</span>
           </li>
           <hr className="border-gray-200 mb-4" />
 
-          {/* Songs */}
           {songs.map((song, index) => (
             <li
               key={song._id}
-              className="group flex items-center py-2 rounded-lg hover:bg-gray-50"
+              className="group flex items-center py-2 h-15 rounded-lg hover:bg-gray-50"
             >
               <div className="w-8">
                 <PlaySongButton
@@ -119,7 +117,7 @@ const DisplayAllSongs = () => {
               </div>
 
               <span
-                className={`flex-[3] ${
+                className={`flex-[8] ${
                   isActiveQueue && currentIndex === index
                     ? "text-green-500"
                     : "text-gray-900"
@@ -128,23 +126,17 @@ const DisplayAllSongs = () => {
                 {song.Title}
               </span>
 
-              <span className="flex-[2] text-gray-600">
-                {song.Artist}
-              </span>
-
-              <span className="flex-[2] text-gray-500">
+              <span className="flex-[5] text-gray-600 pl-2">{song.Artist}</span>
+              <span className="flex-[2] text-gray-500 pl-2">
                 {formatSongDate(song.Date)}
               </span>
-
-              <span className="w-20 text-right text-gray-500">
+              <span className="flex-[1] text-right">
+              <LikeButton songId={song._id} isLiked={song.Liked} song={song} />
+              </span>
+              <span className="flex-[2] pr-2 text-right text-gray-500">
                 {formatSongDuration(song.Duration)}
               </span>
 
-              <LikeButton
-                songId={song._id}
-                isLiked={song.Liked}
-                song={song}
-              />
             </li>
           ))}
         </ul>

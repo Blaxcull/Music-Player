@@ -48,7 +48,6 @@ const PlaySongButton = ({
     if (isThisPlaying) {
       toggle();
     } else {
-      // IMPORTANT: use the correct queue source
       playAt(index, needsQueueUpdate ? songs : queue);
     }
   };
@@ -61,7 +60,7 @@ const PlaySongButton = ({
           isThisPlaying ? "text-green-500" : "text-gray-900"
         }`}
       >
-        {isThisPlaying ? "p" : index + 1}
+      {isThisPlaying ? "p" : index + 1}
       </span>
 
       {/* play / pause on hover */}

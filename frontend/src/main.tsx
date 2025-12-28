@@ -10,10 +10,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AllSongs/>} />
-<<<<<<< HEAD
         <Route path="/LikedSongs" element={<LikedSongs/>} />
-=======
->>>>>>> a44f2d32bde70822c9fcf1ffab91e2121ad40f63
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

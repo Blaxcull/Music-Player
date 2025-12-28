@@ -130,10 +130,7 @@ setQueue: (songs) => {
 
 
   const { queue } = get();
-<<<<<<< HEAD
   console.log(queue)
-=======
->>>>>>> a44f2d32bde70822c9fcf1ffab91e2121ad40f63
   const song = queue[index];
   if (!song || !audio) return;
 
@@ -257,7 +254,6 @@ set({
   }
 },
 
-<<<<<<< HEAD
     queueName: "",
 
     setQueueName: (name) => {
@@ -266,8 +262,6 @@ set({
 
 
 
-=======
->>>>>>> a44f2d32bde70822c9fcf1ffab91e2121ad40f63
 
   };
 });
