@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import clientPromise from '../../config/db.ts';
-import { setCors } from '../../config/cors.ts';
+import clientPromise from '../../config/db.js';
+import { setCors } from '../../config/cors.js';
 import { ObjectId } from 'mongodb';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
