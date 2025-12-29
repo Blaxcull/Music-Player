@@ -7,8 +7,6 @@ import songsRoutes from './routes/song.routes.ts';
 const app = express();
 
 const allowedOrigins = (process.env.FRONTEND_URL || "")
-  .split(",")
-  .map(o => o.trim());
 
 const corsOptions = {
   origin: allowedOrigins,
