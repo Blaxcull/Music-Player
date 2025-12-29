@@ -1,11 +1,9 @@
 import type { VercelResponse, VercelRequest } from '@vercel/node';
 
 export function setCors(req: VercelRequest, res: VercelResponse) {
-  // Allow local frontend and production frontend
-  const allowedOrigins = [
-    'http://localhost:5173',
-    'https://music-player-qudj.vercel.app'
-  ];
+  // Get allowed origins from environment variable (comma-separated)
+  const allowedOriginsEnv = process.env.ALLOWED_ORIGINS || '';
+  const allowedOrigins = allowedOriginsEnv.split(',').map(origin => origin.trim());
 
   const origin = req.headers.origin || '';
   if (allowedOrigins.includes(origin)) {
@@ -18,9 +16,9 @@ export function setCors(req: VercelRequest, res: VercelResponse) {
   // Handle preflight requests
   if (req.method === 'OPTIONS') {
     res.status(200).end();
-    return true; // indicates that request was handled
+    return true; // request handled
   }
 
-  return false; // indicates normal flow
+  return false; // normal flow
 }
 
