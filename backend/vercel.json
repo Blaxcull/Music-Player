@@ -1,4 +1,10 @@
 {
-  "version": 2
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "dist",
+  "functions": {
+    "dist/api/**/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  }
 }
 
