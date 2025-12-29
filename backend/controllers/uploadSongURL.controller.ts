@@ -1,7 +1,7 @@
 // controllers/songs.controller.ts
 import type { Request, Response } from 'express';
-import { getSignedURL } from '../GenerateSignedURL';
-import client from '../config/db';
+import { getSignedURL } from '../GenerateSignedURL.ts';
+import client from '../config/db.ts';
 import dotenv from 'dotenv';
 dotenv.config(); //
 

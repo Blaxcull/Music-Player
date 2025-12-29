@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { uploadSongURL } from '../controllers/uploadSongURL.controller';
-import { getAllSongs } from '../controllers/getAllSongs.controller';
-import { likeClicked } from '../controllers/likeClicked.controller';
-import { getLikedSongs } from '../controllers/getLikedSongs.controller';
+import { uploadSongURL } from '../controllers/uploadSongURL.controller.ts';
+import { getAllSongs } from '../controllers/getAllSongs.controller.ts';
+import { likeClicked } from '../controllers/likeClicked.controller.ts';
+import { getLikedSongs } from '../controllers/getLikedSongs.controller.ts';
 
 
 const router = Router();

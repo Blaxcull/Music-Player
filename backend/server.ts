@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import songsRoutes from "./routes/song.routes";
+import songsRoutes from "./routes/song.routes.ts";
 
 const app = express();
 
