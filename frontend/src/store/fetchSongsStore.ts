@@ -38,8 +38,10 @@ export const useSongStore = create<SongStore>((set) => ({
       console.log(response.data);
       return response.data;
 
-    } catch (err: Err) {
-      set({ error: "Failed to fetch songs",loading: false });
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+          set({ error: err.message, loading: false });
+        }
       console.error(err);
     }
   },
