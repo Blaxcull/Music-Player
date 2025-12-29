@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import clientPromise from '../../config/db';
-import { setCors } from '../../config/cors';
+import clientPromise from '../../config/db.ts';
+import { setCors } from '../../config/cors.ts';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (setCors(req, res)) {
