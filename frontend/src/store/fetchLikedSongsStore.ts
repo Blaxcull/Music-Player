@@ -33,7 +33,7 @@ export const useLikedSongStore = create<SongStore>((set, get) => ({
 
     set({ loading: true, error: null });
     try {
-      const res = await api.get("/api/songs/fetchLikedSongs");
+      const res = await api.get("/api/songs/getLikedSongs");
       set({ songs: res.data, loading: false });
       return res.data;
     } catch (err) {

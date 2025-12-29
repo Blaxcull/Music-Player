@@ -5,25 +5,30 @@ export async function uploadSongToS3(
   coverUrl: string
 ) {
   try {
-    const songUpload = await fetch(songUrl, {
+    // Upload audio
+    const songRes = await fetch(songUrl, {
       method: "PUT",
       body: file,
       headers: { "Content-Type": file.type },
     });
 
+    if (!songRes.ok) throw new Error(`Song upload failed: HTTP ${songRes.status}`);
+
+    // Upload cover if exists
     if (coverArt) {
-      const coverUpload = await fetch(coverUrl, {
+      const coverRes = await fetch(coverUrl, {
         method: "PUT",
         body: coverArt,
         headers: { "Content-Type": "image/png" },
       });
 
-      if (!coverUpload.ok) throw new Error(`HTTP ${coverUpload.status}`);
+      if (!coverRes.ok) throw new Error(`Cover upload failed: HTTP ${coverRes.status}`);
     }
 
-    if (!songUpload.ok) throw new Error(`HTTP ${songUpload.status}`);
+    console.log(`Uploaded: ${file.name}`);
   } catch (err) {
     console.error("Upload failed", file.name, err);
+    throw err; // rethrow for the caller
   }
 }
 

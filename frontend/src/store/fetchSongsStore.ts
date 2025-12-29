@@ -31,7 +31,7 @@ export const useSongStore = create<SongStore>((set) => ({
 
     try {
         console.log("fetching songs")
-      const response = await api.get("/api/songs/fetchAllSongs");
+      const response = await api.get("/api/songs/getAllSongs");
       console.log("fetching songs")
       console.log(response.data);
       set({ songs: response.data, loading: false });

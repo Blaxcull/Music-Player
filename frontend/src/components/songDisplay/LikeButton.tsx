@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/api";
 import { useLikedSongStore } from "@/store/fetchLikedSongsStore";
@@ -22,20 +22,24 @@ interface LikeButtonProps {
 }
 
 const LikeButton = ({ isLiked, songId, song }: LikeButtonProps) => {
-  const [localLike, setLocalLike] = useState<boolean | null>(null);
+  // localLike is now fully controlled by props + state
+  const [localLike, setLocalLike] = useState(isLiked);
 
   const addLiked = useLikedSongStore((s) => s.addSong);
   const removeLiked = useLikedSongStore((s) => s.removeSong);
 
-  const showIsLiked = localLike ?? isLiked;
+  // Keep localLike in sync if parent prop changes
+  useEffect(() => {
+    setLocalLike(isLiked);
+  }, [isLiked]);
 
   const onClick = async () => {
-    const next = !showIsLiked;
+    const next = !localLike;
 
-    // ✅ instant UI update
+    // Optimistic UI update
     setLocalLike(next);
 
-    // ✅ instant store sync
+    // Sync store immediately
     if (next) {
       addLiked({ ...song, Liked: true });
     } else {
@@ -43,13 +47,20 @@ const LikeButton = ({ isLiked, songId, song }: LikeButtonProps) => {
     }
 
     try {
-      await api.post("/api/songs/isLikedClicked", {
+      await api.post("/api/songs/isLikeClicked", {
         songID: songId,
         liked: next,
       });
-    } catch {
-      // ⛑ rollback if backend fails
+    } catch (err) {
+      // revert state if API fails
       setLocalLike(!next);
+
+      // revert store as well
+      if (next) {
+        removeLiked(songId);
+      } else {
+        addLiked({ ...song, Liked: true });
+      }
     }
   };
 
@@ -58,10 +69,10 @@ const LikeButton = ({ isLiked, songId, song }: LikeButtonProps) => {
       <Button
         onClick={onClick}
         className={`bg-transparent ${
-          showIsLiked ? "text-green-500" : "text-gray-400"
+          localLike ? "text-green-500" : "text-gray-400"
         }`}
       >
-        {showIsLiked ? "o" : "n"}
+        {localLike ? "o" : "n"}
       </Button>
     </span>
   );
