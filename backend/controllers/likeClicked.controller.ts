@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import client from '../config/db.ts';
+import client from '../config/db';
 import { ObjectId } from 'mongodb';
 
 

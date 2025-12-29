@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import client from '../config/db.ts';
+import client from '../config/db';
 
 export const getLikedSongs = async (req: Request, res: Response) => {
   try {
