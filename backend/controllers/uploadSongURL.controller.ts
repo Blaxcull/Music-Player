@@ -1,7 +1,7 @@
 // controllers/songs.controller.ts
 import type { Request, Response } from 'express';
 import { getSignedURL } from '../GenerateSignedURL.ts';
-import client from '../config/db.ts';
+import clientPromise from '../config/db.ts';
 import dotenv from 'dotenv';
 dotenv.config(); //
 
@@ -28,7 +28,7 @@ console.log(req.body);
 // insert into mongodb
 async function insertData() {
   try {
-    await client.connect();
+      const client = await clientPromise;
     const db = client.db(process.env.MONGODB_DB_NAME!);
     const collection = db.collection('SignedURLs');
 
@@ -62,7 +62,7 @@ async function insertData() {
     console.log(err);
   }
   finally {
-    await client.close();
+      console.log("done");
   }
 }
 insertData();

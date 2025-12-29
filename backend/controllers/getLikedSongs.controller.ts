@@ -1,9 +1,9 @@
 import type { Request, Response } from 'express';
-import client from '../config/db.ts';
+import clientPromise from '../config/db.ts';
 
 export const getLikedSongs = async (req: Request, res: Response) => {
   try {
-    await client.connect();
+    const client = await clientPromise;
     const db = client.db(process.env.MONGODB_DB_NAME!);
     const collection = db.collection('SignedURLs');
     const songs = await collection.find({UserID: 1, Liked: true}).toArray();

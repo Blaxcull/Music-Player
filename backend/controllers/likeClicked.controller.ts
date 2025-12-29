@@ -1,11 +1,11 @@
 import type { Request, Response } from 'express';
-import client from '../config/db.ts';
+import clientPromise from '../config/db.ts';
 import { ObjectId } from 'mongodb';
 
 
 export const likeClicked = async (req: Request, res: Response) => {
   try {
-    await client.connect();
+      const client = await clientPromise;
     const db = client.db(process.env.MONGODB_DB_NAME!);
     const collection = db.collection('SignedURLs');
 
