@@ -1,4 +1,3 @@
-// filePicker.ts
 export const pickerOpts: OpenFilePickerOptions = {
   types: [
     {
@@ -12,12 +11,15 @@ export const pickerOpts: OpenFilePickerOptions = {
   multiple: true,
 };
 
-// Just returns the file handles — nothing more
 export async function pickAudioFiles(): Promise<FileSystemFileHandle[]> {
   if (!("showOpenFilePicker" in window)) {
     throw new Error("File System Access API not supported");
   }
 
-  return await window.showOpenFilePicker(pickerOpts);
+  const picker = window.showOpenFilePicker as (
+    options?: OpenFilePickerOptions
+  ) => Promise<FileSystemFileHandle[]>;
+
+  return await picker(pickerOpts);
 }
 
