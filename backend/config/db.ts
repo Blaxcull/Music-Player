@@ -1,21 +1,16 @@
-import { MongoClient } from "mongodb";
+import { MongoClient } from 'mongodb';
+import dotenv from 'dotenv';
 
-const uri = process.env.MONGODB_URI!;
-if (!uri) throw new Error("MONGODB_URI missing");
+dotenv.config(); // loads .env
 
-const client = new MongoClient(uri);
-
-let clientPromise: Promise<MongoClient>;
-
-declare global {
-  var _mongoClientPromise: Promise<MongoClient> | undefined;
+if (!process.env.MONGODB_URI) {
+  throw new Error('MONGODB_URI is missing in .env');
 }
 
-if (!global._mongoClientPromise) {
-  global._mongoClientPromise = client.connect();
-}
+const client = new MongoClient(process.env.MONGODB_URI);
 
-clientPromise = global._mongoClientPromise;
+// Connect once and reuse
+const clientPromise = client.connect();
 
-export default clientPromise;
 
+export default client;
