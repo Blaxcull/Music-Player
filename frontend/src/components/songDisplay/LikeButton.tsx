@@ -68,7 +68,7 @@ const LikeButton = ({ isLiked, songId, song }: LikeButtonProps) => {
     <span className="w-8 flex-shrink-0 relative hidden group-hover:inline">
       <Button
         onClick={onClick}
-        className={`bg-transparent ${
+        className={`${
           localLike ? "text-green-500" : "text-gray-400"
         }`}
       >

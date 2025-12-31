@@ -5,12 +5,10 @@ import { Play, Pause } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PlaySongButton from "./PlaySongButton";
 import LikeButton from "./LikeButton";
-import { AddToPlaylist } from "../playlist/AddToPlaylist";
-
+import { AddToPlaylist } from "@/components/playlist/AddToPlaylist";
 
 const DisplayLikedSongs = () => {
   const { songs, fetchLikedSongs, loading, error } = useLikedSongStore();
-  
   const searchSong = usePlayerStore((state) => state.searchedSong);
 
   const {
@@ -36,7 +34,9 @@ const DisplayLikedSongs = () => {
   if (error) return <p>{error}</p>;
 
   const formatSongDate = (date: string | Date) => {
-    const days = Math.floor((Date.now() - new Date(date).getTime()) / 86400000);
+    const days = Math.floor(
+      (Date.now() - new Date(date).getTime()) / 86400000
+    );
     if (days === 0) return "Today";
     if (days === 1) return "Yesterday";
     return `${days} days ago`;
@@ -49,31 +49,28 @@ const DisplayLikedSongs = () => {
   };
 
   const handlePlayLiked = () => {
-    const wasLikedSongs = isActiveQueue;
+    const wasActive = isActiveQueue;
 
     setQueueName("likedSongs");
-    if (!wasLikedSongs) setQueue(songs);
+    if (!wasActive) setQueue(songs);
 
-    if (!wasLikedSongs || currentIndex === -1) {
-      // Start from first song if queue wasn't active or nothing was playing
+    if (!wasActive || currentIndex === -1) {
       playAt(0);
     } else {
-      // Toggle pause/play if queue is active
       toggle();
     }
   };
 
-    const songIndexMap = useMemo(() => {
-  return new Map(songs.map((song, index) => [song._id, index]));
-}, [songs]);
-
-
+  const songIndexMap = useMemo(() => {
+    return new Map(songs.map((song, index) => [song._id, index]));
+  }, [songs]);
 
   return (
     <div className="flex flex-col bg-white rounded-lg shadow-sm">
       <div className="p-6 border-b border-gray-100">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-10">All Songs</h1>
-
+        <h1 className="text-2xl font-semibold text-gray-900 mb-10">
+          Liked Songs
+        </h1>
 
         <div className="flex items-center gap-2">
           <button
@@ -102,71 +99,65 @@ const DisplayLikedSongs = () => {
           <li className="text-gray-500 text-sm mb-2 flex items-center">
             <span className="w-8 pl-2">#</span>
             <span className="flex-[8]">Title</span>
-            <span className="flex-[5] ">Artist</span>
-            <span className="flex-[2] ">Date Added</span>
-            <span className="flex-[1] "></span>
-
+            <span className="flex-[5]">Artist</span>
+            <span className="flex-[2]">Date Added</span>
+            <span className="flex-[1]" />
             <span className="w-20 flex-[2] text-right">Duration</span>
           </li>
+
           <hr className="border-gray-200 mb-4" />
 
-{songs
-  .filter((song) =>
-    song.Title.toLowerCase().includes(searchSong.toLowerCase()) ||
-    song.Artist.toLowerCase().includes(searchSong.toLowerCase())
-  )
-  .map((song) => {
-    const originalIndex = songIndexMap.get(song._id)!;
+          {songs
+            .filter(
+              (song) =>
+                song.Title.toLowerCase().includes(searchSong.toLowerCase()) ||
+                song.Artist.toLowerCase().includes(searchSong.toLowerCase())
+            )
+            .map((song) => {
+              const originalIndex = songIndexMap.get(song._id)!;
 
-    return (
-        <AddToPlaylist>
-  <li
-    key={song._id}
-    className="group flex items-center py-2 h-15 rounded-lg hover:bg-gray-50"
+              return (
+                <AddToPlaylist key={song._id}>
+                  <li className="group flex items-center py-2 h-15 rounded-lg hover:bg-gray-50">
+                    <div className="w-8">
+                      <PlaySongButton
+                        index={originalIndex}
+                        songs={songs}
+                        LocalQueueName="likedSongs"
+                        isActiveQueue={isActiveQueue}
+                      />
+                    </div>
 
-  >
-    <div className="w-8">
-      <PlaySongButton
-        index={originalIndex}
-        songs={songs}
-        LocalQueueName="allSongs"
-        isActiveQueue={isActiveQueue}
-      />
-    </div>
+                    <span className="flex-[8]">{song.Title}</span>
 
-    <span className="flex-[8]">
-      {song.Title}
-    </span>
+                    <span className="flex-[5] text-gray-600 pl-2">
+                      {song.Artist}
+                    </span>
 
-    <span className="flex-[5] text-gray-600 pl-2">
-      {song.Artist}
-    </span>
+                    <span className="flex-[2] text-gray-500 pl-2">
+                      {formatSongDate(song.Date)}
+                    </span>
 
-    <span className="flex-[2] text-gray-500 pl-2">
-      {formatSongDate(song.Date)}
-    </span>
+                    <span className="flex-[1] text-right">
+                      <LikeButton
+                        songId={song._id}
+                        isLiked={song.Liked}
+                        song={song}
+                      />
+                    </span>
 
-    <span className="flex-[1] text-right">
-      <LikeButton
-        songId={song._id}
-        isLiked={song.Liked}
-        song={song}
-      />
-    </span>
-
-    <span className="flex-[2] pr-2 text-right text-gray-500">
-      {formatSongDuration(song.Duration)}
-    </span>
-  </li>
-  </AddToPlaylist>
-    );
-  })}
+                    <span className="flex-[2] pr-2 text-right text-gray-500">
+                      {formatSongDuration(song.Duration)}
+                    </span>
+                  </li>
+                </AddToPlaylist>
+              );
+            })}
         </ul>
       </div>
     </div>
   );
 };
-
 
 export default DisplayLikedSongs;
 
