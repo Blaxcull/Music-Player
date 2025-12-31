@@ -16,19 +16,24 @@ const Loop = () => {
     else setLoopMode("none");
   };
 
-  return (
-    <Button
-      onClick={onClick}
-      className="bg-transparent text-2xl text-gray-400 hover:text-white
-
-      tabular-nums
-      ml-2
-
-      "
-    >
-      {icon}
-    </Button>
-  );
+ return (
+<Button
+  onClick={onClick}
+  className="
+    w-10 h-10
+    flex items-center justify-center
+    bg-transparent
+    text-2xl
+    text-gray-400 hover:text-white
+    ml-2
+    text-center
+    hover:bg-transparent
+    transparent text-gray-400 transition-none
+    "
+>
+    {icon}
+</Button>
+);
 };
 
 export default Loop;

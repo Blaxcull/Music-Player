@@ -5,6 +5,7 @@ import { Play, Pause } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PlaySongButton from "./PlaySongButton";
 import LikeButton from "./LikeButton";
+import { AddToPlaylist } from "@/components/playlist/AddToPlaylist";
 
 const DisplayAllSongs = () => {
   const { songs, fetchSongs, loading, error } = useSongStore();
@@ -121,49 +122,46 @@ const DisplayAllSongs = () => {
     const originalIndex = songIndexMap.get(song._id)!;
 
     return (
-      <li
-        key={song._id}
-        className="group flex items-center py-2 h-15 rounded-lg hover:bg-gray-50"
-      >
-        <div className="w-8">
-          <PlaySongButton
-            index={originalIndex}
-            songs={songs}
-            LocalQueueName="allSongs"
-            isActiveQueue={isActiveQueue}
-          />
-        </div>
+        <AddToPlaylist>
+  <li
+    key={song._id}
+    className="group flex items-center py-2 h-15 rounded-lg hover:bg-gray-50"
 
-        <span
-          className={`flex-[8] ${
-            isActiveQueue && currentIndex === originalIndex
-              ? "text-green-500"
-              : "text-gray-900"
-          }`}
-        >
-          {song.Title}
-        </span>
+  >
+    <div className="w-8">
+      <PlaySongButton
+        index={originalIndex}
+        songs={songs}
+        LocalQueueName="allSongs"
+        isActiveQueue={isActiveQueue}
+      />
+    </div>
 
-        <span className="flex-[5] text-gray-600 pl-2">
-          {song.Artist}
-        </span>
+    <span className="flex-[8]">
+      {song.Title}
+    </span>
 
-        <span className="flex-[2] text-gray-500 pl-2">
-          {formatSongDate(song.Date)}
-        </span>
+    <span className="flex-[5] text-gray-600 pl-2">
+      {song.Artist}
+    </span>
 
-        <span className="flex-[1] text-right">
-          <LikeButton
-            songId={song._id}
-            isLiked={song.Liked}
-            song={song}
-          />
-        </span>
+    <span className="flex-[2] text-gray-500 pl-2">
+      {formatSongDate(song.Date)}
+    </span>
 
-        <span className="flex-[2] pr-2 text-right text-gray-500">
-          {formatSongDuration(song.Duration)}
-        </span>
-      </li>
+    <span className="flex-[1] text-right">
+      <LikeButton
+        songId={song._id}
+        isLiked={song.Liked}
+        song={song}
+      />
+    </span>
+
+    <span className="flex-[2] pr-2 text-right text-gray-500">
+      {formatSongDuration(song.Duration)}
+    </span>
+  </li>
+  </AddToPlaylist>
     );
   })}
         </ul>

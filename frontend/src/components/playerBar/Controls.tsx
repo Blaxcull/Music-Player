@@ -4,7 +4,7 @@ import Loop from "./Loop";
 import Shuffle from "./shuffle";
 import {Play} from "lucide-react";
 import {Pause} from "lucide-react";
-
+import {SkipForward} from "lucide-react";
 export const Controls = () => {
   const toggle = usePlayerStore((state) => state.toggle);
   const isPlaying = usePlayerStore((state) => state.isPlaying);
@@ -20,9 +20,11 @@ export const Controls = () => {
       
 <div className="flex items-center  gap-3">
 
+      <div className="pb-1">
 
+      <Shuffle />
+      </div>
 
-<Shuffle />
 
 <Button
   className="
@@ -43,7 +45,8 @@ export const Controls = () => {
   onClick={prev}
 >
 
-⏮</Button>
+
+  <SkipForward className="w-6 h-6 rotate-180" /></Button>
       <Button
         onClick={onclick}
         className="w-10 h-10 rounded-full bg-white text-xl flex items-center justify-center"
@@ -71,8 +74,11 @@ export const Controls = () => {
 
         onClick={next}
 
-      >⏭</Button>
+      ><SkipForward className="w-8 h-8" /></Button>
+
+      <div className="pb-1">
       <Loop />
+      </div>
 
 
     </div>

@@ -1,5 +1,5 @@
+import {Play, Pause} from "lucide-react"
 import { usePlayerStore } from "@/store/playerStore";
-
 type Song = {
   _id: string;
   Title: string;
@@ -52,27 +52,27 @@ const PlaySongButton = ({
     }
   };
 
-  return (
-    <span className="pl-2 w-8 flex-shrink-0 relative">
-      {/* index / playing indicator */}
-      <span
-        className={`group-hover:hidden ${
+return (
+  <span className="pl-5 w-8 flex-shrink-0 relative">
+    {/* index / playing indicator */}
+    <span
+      className={`absolute inset-0 flex items-center justify-center
+        group-hover:hidden ${
           isThisPlaying ? "text-green-500" : "text-gray-900"
         }`}
-      >
+    >
       {isThisPlaying ? "p" : index + 1}
-      </span>
-
-      {/* play / pause on hover */}
-      <span
-        className="hidden group-hover:inline cursor-pointer"
-        onClick={onClick}
-      >
-        {isThisPlaying ? "⏸" : "▶"}
-      </span>
     </span>
-  );
-};
 
+    {/* play / pause on hover */}
+    <span
+      className="absolute inset-0 hidden group-hover:flex items-center justify-center cursor-pointer"
+      onClick={onClick}
+    >
+      {isPlaying ? <Pause size={16} /> : <Play size={16} />}
+    </span>
+  </span>
+);
+}
 export default PlaySongButton;
 
