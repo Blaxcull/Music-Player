@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useSongStore } from "@/store/fetchSongsStore";
 import { usePlayerStore } from "@/store/playerStore";
 import { Play, Pause } from "lucide-react";
@@ -8,6 +8,10 @@ import LikeButton from "./LikeButton";
 
 const DisplayAllSongs = () => {
   const { songs, fetchSongs, loading, error } = useSongStore();
+  const searchSong = usePlayerStore((state) => state.searchedSong);
+
+  console.log(searchSong)
+  
 
   const {
     queue,
@@ -61,6 +65,12 @@ const DisplayAllSongs = () => {
     }
   };
 
+    const songIndexMap = useMemo(() => {
+  return new Map(songs.map((song, index) => [song._id, index]));
+}, [songs]);
+
+
+
   return (
     <div className="flex flex-col bg-white rounded-lg shadow-sm">
       <div className="p-6 border-b border-gray-100">
@@ -102,43 +112,60 @@ const DisplayAllSongs = () => {
           </li>
           <hr className="border-gray-200 mb-4" />
 
-          {songs.map((song, index) => (
-            <li
-              key={song._id}
-              className="group flex items-center py-2 h-15 rounded-lg hover:bg-gray-50"
-            >
-              <div className="w-8">
-                <PlaySongButton
-                  index={index}
-                  songs={songs}
-                  LocalQueueName="allSongs"
-                  isActiveQueue={isActiveQueue}
-                />
-              </div>
+{songs
+  .filter((song) =>
+    song.Title.toLowerCase().includes(searchSong.toLowerCase()) ||
+    song.Artist.toLowerCase().includes(searchSong.toLowerCase())
+  )
+  .map((song) => {
+    const originalIndex = songIndexMap.get(song._id)!;
 
-              <span
-                className={`flex-[8] ${
-                  isActiveQueue && currentIndex === index
-                    ? "text-green-500"
-                    : "text-gray-900"
-                }`}
-              >
-                {song.Title}
-              </span>
+    return (
+      <li
+        key={song._id}
+        className="group flex items-center py-2 h-15 rounded-lg hover:bg-gray-50"
+      >
+        <div className="w-8">
+          <PlaySongButton
+            index={originalIndex}
+            songs={songs}
+            LocalQueueName="allSongs"
+            isActiveQueue={isActiveQueue}
+          />
+        </div>
 
-              <span className="flex-[5] text-gray-600 pl-2">{song.Artist}</span>
-              <span className="flex-[2] text-gray-500 pl-2">
-                {formatSongDate(song.Date)}
-              </span>
-              <span className="flex-[1] text-right">
-              <LikeButton songId={song._id} isLiked={song.Liked} song={song} />
-              </span>
-              <span className="flex-[2] pr-2 text-right text-gray-500">
-                {formatSongDuration(song.Duration)}
-              </span>
+        <span
+          className={`flex-[8] ${
+            isActiveQueue && currentIndex === originalIndex
+              ? "text-green-500"
+              : "text-gray-900"
+          }`}
+        >
+          {song.Title}
+        </span>
 
-            </li>
-          ))}
+        <span className="flex-[5] text-gray-600 pl-2">
+          {song.Artist}
+        </span>
+
+        <span className="flex-[2] text-gray-500 pl-2">
+          {formatSongDate(song.Date)}
+        </span>
+
+        <span className="flex-[1] text-right">
+          <LikeButton
+            songId={song._id}
+            isLiked={song.Liked}
+            song={song}
+          />
+        </span>
+
+        <span className="flex-[2] pr-2 text-right text-gray-500">
+          {formatSongDuration(song.Duration)}
+        </span>
+      </li>
+    );
+  })}
         </ul>
       </div>
     </div>

@@ -17,6 +17,9 @@ type PlayerStore = {
 
   queue: Song[];
 
+  searchedSong: string;
+  setSearchedSong: (song: string) => void;
+
 playOrder: number[];   
   orderIndex: number;
 
@@ -260,7 +263,11 @@ set({
       set({ queueName: name });
     },
 
+    searchedSong: "",
 
+    setSearchedSong: (song) => {
+      set({ searchedSong: song });
+    },
 
 
   };
