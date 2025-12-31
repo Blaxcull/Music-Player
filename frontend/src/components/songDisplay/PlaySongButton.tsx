@@ -69,7 +69,7 @@ return (
       className="absolute inset-0 hidden group-hover:flex items-center justify-center cursor-pointer"
       onClick={onClick}
     >
-      {isPlaying ?  <Pause size={16} />: <Play size={16} />  }
+      {isThisPlaying?  <Pause size={16} />: <Play size={16} />  }
     </span>
   </span>
 );
